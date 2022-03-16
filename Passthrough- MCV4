@@ -33,13 +33,15 @@ AND (
 AND vs2.date IS NULL
 
 
-
--- ALTERNATIVELY
+/****************************************
+ALTERNATIVELY
+****************************************/
 LEFT OUTER JOIN VaccineShot vs 
     ON vs.personID = student.personID AND vs.vaccineID = 19 AND (vs.date < DATEADD(year,16,student.birthdate) OR vs.date is NULL)
 LEFT OUTER JOIN VaccineShot vs2 
-    ON vs2.PersonID <> vs.personID AND vs2.vaccineID = 19
+    ON vs2.PersonID = vs.personID AND vs2.vaccineID = 19 AND vs2.date >= DATEADD(year,16,student.birthdate) AND vs2.shotID <> vs.shotID
     
 AND student.grade >= '11' 
 AND student.startDate <= GETDATE() 
 AND ISNULL(student.endDate, GETDATE()+1) >= GETDATE()
+
