@@ -12,7 +12,7 @@ WHERE 1=1
 
 -- Current Parameters 
 
--- Join the VaccinShot table and limit results to vaccine ID 19 (MCV4)
+-- Join the VaccineShot table and limit results to vaccine ID 19 (MCV4)
 LEFT OUTER JOIN VaccineShot vs 
     ON vs.personID = student.personID AND vs.vaccineID = 19
 -- Join the VaccineShot table and limit results to students with
