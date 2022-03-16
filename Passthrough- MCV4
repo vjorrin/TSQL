@@ -5,24 +5,25 @@
 /****************************************
 Filter Name:
 REVIEW- HEALTH-IMM-11th MCV4 NON 
+Data Set: 1240
 ****************************************/
 
-/****************************************
+
 SELECT DISTINCT student.personID
 FROM student
-****************************************/
+
 
 LEFT OUTER JOIN VaccineShot vs 
     ON vs.personID = student.personID AND vs.vaccineID = 19
 LEFT OUTER JOIN VaccineShot vs2 
     ON vs2.PersonID = vs.personID AND vs2.vaccineID = 19 AND vs2.date >= DATEADD(year,16,student.birthdate)
     
-/****************************************
+
 WHERE 1=1 
 AND student.calendarID = <selected Calendar>
 AND student.endYear = <selected Year>
 AND student.structureID = <selected Schedule> 
-****************************************/
+
 
 AND student.grade >= '11' 
 AND student.startDate <= GETDATE() 
