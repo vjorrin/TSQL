@@ -35,6 +35,7 @@ AND vs2.date IS NULL
 
 /****************************************
 ALTERNATIVELY
+Data Set: 1240
 ****************************************/
 LEFT OUTER JOIN VaccineShot vs 
     ON vs.personID = student.personID AND vs.vaccineID = 19 AND (vs.date < DATEADD(year,16,student.birthdate) OR vs.date is NULL)
