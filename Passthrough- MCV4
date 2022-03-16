@@ -1,40 +1,37 @@
-/****************************************
-Filter Name:
-REVIEW- HEALTH-IMM-11th MCV4 NON 
-****************************************/
+-- Filter Name: REVIEW- HEALTH-IMM-11th MCV4 NON 
 
-/****************************************
-
-****************************************/
-
-/****************************************
-Default Clauses & Attributes
-****************************************/
+-- Default Clauses & Attributes
 SELECT DISTINCT student.personID
+
 FROM student
 
-
 WHERE 1=1 
-AND student.calendarID = <selected Calendar>
-AND student.endYear = <selected Year>
-AND student.structureID = <selected Schedule> 
+    AND student.calendarID = <selected Calendar>
+    AND student.endYear = <selected Year>
+    AND student.structureID = <selected Schedule> 
 
+-- Current Parameters 
 
-/****************************************
-Active Version
-Data Set: 1240
-****************************************/
+-- Join the VaccinShot table and limit results to vaccine ID 19 (MCV4)
 LEFT OUTER JOIN VaccineShot vs 
     ON vs.personID = student.personID AND vs.vaccineID = 19
+-- Join the VaccineShot table and limit results to students with
+-- MCV4 vaccine shot on or after 16 years of age
 LEFT OUTER JOIN VaccineShot vs2 
     ON vs2.PersonID = vs.personID AND vs2.vaccineID = 19 AND vs2.date >= DATEADD(year,16,student.birthdate)
-    
+
+-- Limit results to students in 11th grade or higher
 AND student.grade >= '11' 
+-- Limit results to students with an enrollment start date less than or equal to today's date
 AND student.startDate <= GETDATE() 
+-- Limit to students with a withdrawal date of equal or greater to today's date
 AND ISNULL(student.endDate, GETDATE()+1) >= GETDATE()
 AND (
+    -- Limit results to students without a vaccine
     vs.date IS NULL 
-    OR vs.date < DATEADD(year,16,student.birthdate))    
+    -- Limit results to students with a vaccine date less than 16 years of age
+    OR vs.date < DATEADD(year,16,student.birthdate))
+-- Limit to students that are not in the second joined table with vaccines at or after age of 16    
 AND vs2.date IS NULL
 
 
